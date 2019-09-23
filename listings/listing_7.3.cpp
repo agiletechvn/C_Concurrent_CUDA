@@ -1,5 +1,7 @@
 #include <atomic>
 #include <memory>
+#include <thread>
+#include <iostream>
 
 template<typename T>
 class lock_free_stack
@@ -29,3 +31,15 @@ public:
         return old_head ? old_head->data : std::shared_ptr<T>();
     }
 };
+
+
+int main()
+{
+
+    std::thread threadObj(lock_free_stack<int>::push);
+    for(int i = 0; i < 10000; i++);
+    std::cout<<"Display From MainThread"<<std::endl;
+    threadObj.join();
+    std::cout<<"Exit of Main function"<<std::endl;
+    return 0;
+}
